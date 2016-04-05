@@ -1,0 +1,75 @@
+---
+title: 'MIE237'
+author: "Neil Montgomery"
+date: "2016-04-05"
+output: 
+  ioslides_presentation: 
+    css: 'styles.css' 
+    widescreen: true 
+    transition: 0.001
+---
+\newcommand{\Var}[1]{\text{Var}\left( #1 \right)}
+\newcommand{\E}[1]{E\left( #1 \right)}
+\newcommand{\Sample}[1]{#1_1,\ldots,#1_n}
+\newcommand{\od}[2]{\overline #1_{#2\cdot}}
+\newcommand{\flist}[2]{\{#1_1, #1_2, \ldots, #1_#2\}}
+\newcommand{\samp}[2]{#1_1, #1_2, \ldots, #1_#2}
+\renewcommand{\bar}[1]{\overline{#1}}
+\newcommand{\ve}{\varepsilon}
+\newcommand{\bs}[1]{\boldsymbol{#1}}
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE, cache=TRUE)
+```
+
+## Example 1 - unintentially challenging!
+
+```{r, echo=TRUE}
+set.seed(12)
+n <- 50
+x1 <- runif(n)
+x2 <- runif(n)
+x3 <- runif(n)
+x4 <- runif(n)
+x5 <- runif(n)
+y <- x1 + 0.4*x2 + 0.6*x4 + rnorm(n, 0, 0.2)
+f1 <- data.frame(y,x1,x2,x3,x4,x5)
+```
+
+But according to the forward strategy, all variables get included. 
+
+It turns out this happened by sheer chance (about 3 out of 1000 chance).
+
+## Otherwise example 1 was straightforward
+
+```{r, echo=FALSE, warning=FALSE, fig.height=5.5, fig.width=9, fig.align='center'}
+library(GGally)
+ggpairs(f1)
+```
+
+
+## Example 2
+
+```{r, echo=TRUE}
+library(rio)
+f2 <- import("problem.xlsx")
+```
+
+## Ex 2 correlations
+
+```{r, echo=FALSE, warning=FALSE, fig.height=5.5, fig.width=9, fig.align='center'}
+library(GGally)
+ggpairs(f2)
+```
+
+## True model Ex 2
+
+$$y = 1 + 0.5x_1 + 0.1x_2 + 0.3 x_3 +0.4x_4+0.5x_5 + \varepsilon$$
+
+The $x$ variables were created from a $5^d$ normal distribution with
+some correlations put in.
+
+The model fitting procedure doesn't end up with the ``truth'' in this case.
+
+
+
